@@ -6,6 +6,7 @@ import {getErrorOperationFailed} from "./utils/error.mjs";
 import {add, cat, cp, mkdir, mv, rm, rn} from "./commands/fs.mjs";
 import {osArchitecture, osCpus, osEOL, osHomedir, osUsername} from "./commands/os.mjs";
 import {hash} from "./commands/hash.mjs";
+import {compress, decompress} from "./commands/archive.mjs";
 
 export const cli = (username) => {
     const rl = readline.createInterface({
@@ -88,6 +89,16 @@ export const cli = (username) => {
                 // hash
                 case 'hash':
                     hash(rl, args.join(' '));
+                    break;
+    
+                // compress
+                case 'compress':
+                    await compress(args[0], args[1]);
+                    break;
+    
+                // decompress
+                case 'decompress':
+                    await decompress(args[0], args[1]);
                     break;
                     
                 default: console.error('Invalid input');
