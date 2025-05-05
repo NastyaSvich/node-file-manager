@@ -1,9 +1,10 @@
-import readline from 'node:readline';
-import {homedir} from 'node:os'
+import readline from 'readline';
+import os from 'os'
 import {cd, ls, up} from "./commands/navigation.mjs";
 import {changeDirectory, getCurrentDirectory} from "./utils/directory.mjs";
 import {getErrorOperationFailed} from "./utils/error.mjs";
 import {add, cat, cp, mkdir, mv, rm, rn} from "./commands/fs.mjs";
+import {osArchitecture, osCpus, osEOL, osHomedir, osUsername} from "./commands/os.mjs";
 
 export const cli = (username) => {
     const rl = readline.createInterface({
@@ -13,7 +14,7 @@ export const cli = (username) => {
     });
     
     console.log(`Welcome to the File Manager, ${username}!`);
-    changeDirectory(homedir());
+    changeDirectory(os.homedir());
     printCurrentDirectory();
     
     rl.prompt();
@@ -61,8 +62,29 @@ export const cli = (username) => {
                     await rm(args.join(' '));
                     break;
                     
-                default:
-                    console.error('Invalid input');
+                // operating system
+                case ('os'):
+                    switch (args[0]) {
+                        case '--EOL':
+                            osEOL();
+                            break;
+                        case '--cpus':
+                            osCpus();
+                            break;
+                        case '--homedir':
+                            osHomedir();
+                            break;
+                        case '--username':
+                            osUsername();
+                            break;
+                        case '--architecture':
+                            osArchitecture();
+                            break;
+                        default: console.error('Invalid input');
+                    }
+                    break;
+                    
+                default: console.error('Invalid input');
             }
         } catch {
             getErrorOperationFailed();
