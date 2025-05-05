@@ -5,6 +5,7 @@ import {changeDirectory, getCurrentDirectory} from "./utils/directory.mjs";
 import {getErrorOperationFailed} from "./utils/error.mjs";
 import {add, cat, cp, mkdir, mv, rm, rn} from "./commands/fs.mjs";
 import {osArchitecture, osCpus, osEOL, osHomedir, osUsername} from "./commands/os.mjs";
+import {hash} from "./commands/hash.mjs";
 
 export const cli = (username) => {
     const rl = readline.createInterface({
@@ -82,6 +83,11 @@ export const cli = (username) => {
                             break;
                         default: console.error('Invalid input');
                     }
+                    break;
+    
+                // hash
+                case 'hash':
+                    hash(rl, args.join(' '));
                     break;
                     
                 default: console.error('Invalid input');
